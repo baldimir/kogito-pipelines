@@ -74,7 +74,7 @@ repositories:
 - name: kie-tools
 - name: kogito-docs
 - name: kie-docs
-  branch: main-kogito
+  branch: main
 git:
   author:
     name: baldimir
