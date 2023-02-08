@@ -11,8 +11,7 @@ seedConfig = [:]
 
 pipeline {
     agent {
-        // node { label "${env.AGENT_LABEL}" }
-        label "kie-rhel8"
+        node { label "${env.AGENT_LABEL}" }
     }
 
     options {
