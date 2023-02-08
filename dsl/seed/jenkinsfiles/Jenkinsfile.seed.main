@@ -11,7 +11,7 @@ seedConfig = [:]
 
 pipeline {
     agent {
-        label "${env.AGENT_LABEL}"
+        node { label "${env.AGENT_LABEL}" }
     }
 
     options {

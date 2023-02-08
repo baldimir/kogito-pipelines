@@ -48,7 +48,6 @@ seed:
       repository: kogito-pipelines
       author:
         name: kiegroup
-        credentials_id: kie-ci
       branch: main
     path: dsl/config/branch.yaml
   jenkinsfile: dsl/seed/jenkinsfiles/Jenkinsfile.seed.branch
