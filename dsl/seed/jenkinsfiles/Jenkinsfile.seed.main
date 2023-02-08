@@ -11,7 +11,7 @@ seedConfig = [:]
 
 pipeline {
     agent {
-        node { label "provisioned_node" }
+        label "provisioned_node"
     }
 
     options {
