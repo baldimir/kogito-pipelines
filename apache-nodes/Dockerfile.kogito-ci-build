@@ -2,13 +2,14 @@ FROM cruizba/ubuntu-dind:latest
 
 SHELL ["/bin/bash", "-c"]
 
-ARG SDKMAN_JAVA="17.0.8-tem"
-ARG SDKMAN_MAVEN="3.8.8"
+ARG SDKMAN_JAVA="17.0.9-tem"
+ARG SDKMAN_MAVEN="3.8.7 3.9.3"
 ARG PYTHON_MAJOR_VERSION="3"
 ARG PYTHON_MAJOR_MINOR_VERSION="3.11"
 
 # set locale to C.UTF-8
 ENV LANG='C.UTF-8'
+ENV USE_JAVA=""
 
 RUN apt update && apt upgrade -y && apt install -y \
 # skdman deps (BEGIN)
@@ -75,9 +76,10 @@ RUN sudo update-alternatives --install /usr/local/bin/python python $(which pyth
 
 RUN curl -s "https://get.sdkman.io" | bash && \
   source "$HOME/.sdkman/bin/sdkman-init.sh" && \
-  sdk install java ${SDKMAN_JAVA} && \
+  echo 'sdkman_auto_answer=true' >> $HOME/.sdkman/etc/config && \
+  for i in ${SDKMAN_JAVA}; do sdk install java ${i}; done && \
   sudo update-alternatives --install /usr/local/bin/java java $(which java) 1 && \
-  sdk install maven ${SDKMAN_MAVEN} && \
+  for i in ${SDKMAN_MAVEN}; do sdk install maven ${i}; done && \
   sudo update-alternatives --install /usr/local/bin/mvn mvn $(which mvn) 1 && \
   sdk flush
   
@@ -172,5 +174,8 @@ RUN sudo bash -c "echo \"dash dash/sh boolean false\" | debconf-set-selections"
 RUN sudo bash -c "DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash"
 # Use bash as default instead of dash (END)
 
-ENTRYPOINT ["entrypoint.sh"]
+ENV JAVA_VERSION=""
+ENV MAVEN_VERSION=""
+
+ENTRYPOINT /usr/local/bin/entrypoint.sh "$JAVA_VERSION" "$MAVEN_VERSION"
 CMD ["bash"]

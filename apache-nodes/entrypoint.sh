@@ -18,3 +18,12 @@ start-docker.sh
 if [ $# -gt 0 ]; then
 	exec "$@"
 fi
+
+if [ -n "$1" ]; then
+  echo "Setting Java version to $1"
+  sdk default java "$1"
+fi
+if [ -n "$2" ]; then
+  echo "Setting Maven version to $2"
+  sdk default maven "$2"
+fi
